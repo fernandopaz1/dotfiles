@@ -11,6 +11,8 @@ set undofile
 set incsearch
 set relativenumber
 
+set t_Co=256
+
 set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
@@ -18,4 +20,9 @@ highlight ColorColumn ctermbg=0 guibg=lightgrey
 call plug#begin('~/.vim/plugged')
     Plug 'preservim/nerdtree'
     Plug 'vim-syntastic/syntastic'
+    Plug 'mattn/emmet-vim'
+    Plug 'ternjs/tern_for_vim', { 'do' : 'npm install' }
 call plug#end()
+
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete
