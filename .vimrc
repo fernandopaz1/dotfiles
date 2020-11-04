@@ -9,7 +9,9 @@ set nobackup
 set undodir=~/.vim/undodir
 set undofile
 set incsearch
-set relativenumber
+
+set number                               "Shows the current number line
+set relativenumber                      "The rest are relative to current
 
 set t_Co=256
 
@@ -22,6 +24,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-syntastic/syntastic'
     Plug 'mattn/emmet-vim'
     Plug 'ternjs/tern_for_vim', { 'do' : 'npm install' }
+    Plug 'sheerun/vim-polyglot'
 call plug#end()
 
 filetype plugin on

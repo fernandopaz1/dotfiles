@@ -1,9 +1,3 @@
-if [ ! -S ~/.ssh/ssh_auth_sock ]; then
-  eval `ssh-agent`
-  ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
-fi
-export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
-ssh-add -l > /dev/null || ssh-add
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -114,7 +108,11 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+alias tmux='tmux -2'
 alias webTemplate=/home/paz/bashScripts/webPageTemplate.sh
+alias conect=wicd-client -n
+alias ipython3='python3 -c "from IPython import embed; embed()"'
+alias jlab='jupyter-lab > /dev/null 2>&1 &'
 
 alias gst='git status'
 alias ga='git add .'
@@ -132,6 +130,16 @@ alias gcot='git checkout -t'
 alias gcotb='git checkout --track -b'
 alias glog='git log'
 alias glogp='git log --pretty=format:"%h %s" --graph'
+
 open(){
     nohup thunar > /dev/null 2>&1
-} 
+}
+
+# Inicializacion de node
+
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+
+#Agrega el PATH de Jupyter (posiblemente vaya en .profile)
+export PATH="$HOME/.local/bin:$PATH"
