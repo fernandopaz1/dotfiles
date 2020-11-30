@@ -114,10 +114,15 @@ alias conect=wicd-client -n
 alias ipython3='python3 -c "from IPython import embed; embed()"'
 alias jlab='jupyter-lab > /dev/null 2>&1 &'
 
+# Aliases relacionados a postgress
+alias psql='psql -U postgres'
+alias sqlErr='sudo cat /var/log/postgresql/postgresql-11-main.log | tail'
+
+
 alias gst='git status'
 alias ga='git add .'
 alias gl='git pull'
-alias gp='git push'
+alias gp='git push origin master'
 alias gd='git diff'
 alias gau='git add --update'
 alias gc='git commit -m'
