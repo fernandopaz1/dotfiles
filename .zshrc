@@ -28,10 +28,10 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+#HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to automatically update without prompting.
 # DISABLE_UPDATE_PROMPT="true"
@@ -65,7 +65,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # or set a custom format using the strftime function format specifications,
 # see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
+ HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -110,9 +110,12 @@ source $ZSH/oh-my-zsh.sh
 
 alias tmux='tmux -2'
 alias webTemplate=/home/paz/bashScripts/webPageTemplate.sh
-alias conect=wicd-client -n
+alias conect='nohup wicd-client -n 2>&1 &'
 alias ipython3='python3 -c "from IPython import embed; embed()"'
-alias jlab='jupyter-lab > /dev/null 2>&1 &'
+alias jlab='nohup jupyter-lab > /dev/null 2>&1 &'
+alias gdit='nohup gedit > /dev/null 2>&1 &'
+alias pycharm='cd ~/pycharm-community-2021.1.1/bin && ./pycharm.sh && cd >| /dev/null 2>&1 &'
+
 
 # Aliases relacionados a postgress
 alias psql='psql -U postgres'
@@ -122,7 +125,7 @@ alias sqlErr='sudo cat /var/log/postgresql/postgresql-11-main.log | tail'
 alias gst='git status'
 alias ga='git add .'
 alias gl='git pull'
-alias gp='git push origin master'
+alias gp='git push origin main'
 alias gd='git diff'
 alias gau='git add --update'
 alias gc='git commit -m'
@@ -135,6 +138,7 @@ alias gcot='git checkout -t'
 alias gcotb='git checkout --track -b'
 alias glog='git log'
 alias glogp='git log --pretty=format:"%h %s" --graph'
+alias ghp='git subtree push --prefix dist origin gh-pages'
 
 open(){
     nohup thunar > /dev/null 2>&1
@@ -148,3 +152,8 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 
 #Agrega el PATH de Jupyter (posiblemente vaya en .profile)
 export PATH="$HOME/.local/bin:$PATH"
+
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/paz/.sdkman"
+[[ -s "/home/paz/.sdkman/bin/sdkman-init.sh" ]] && source "/home/paz/.sdkman/bin/sdkman-init.sh"
