@@ -75,7 +75,11 @@ DISABLE_AUTO_UPDATE="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(
+    git
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -157,3 +161,9 @@ export PATH="$HOME/.local/bin:$PATH"
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/paz/.sdkman"
 [[ -s "/home/paz/.sdkman/bin/sdkman-init.sh" ]] && source "/home/paz/.sdkman/bin/sdkman-init.sh"
+
+
+# Esto esta aca para que conrra autojump automaticamente
+[[ -s /home/paz/.autojump/etc/profile.d/autojump.sh ]] && source /home/paz/.autojump/etc/profile.d/autojump.sh
+autoload -U compinit && compinit -u
+
