@@ -1,7 +1,10 @@
 syntax on                              "Enable sintax coloring
 
 set noerrorbells                       "Disable sounds due to errors
-set tabstop=4 softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set textwidth=79
 set expandtab
 set smartindent
 set nowrap
@@ -12,6 +15,12 @@ set incsearch
 set background=dark
 set number                      "The rest are relative to current
 set relativenumber                      "The rest are relative to current
+set autoindent
+set cursorline
+set wrap
+set ttyfast
+set laststatus=2
+
 
 
 set colorcolumn=80
@@ -31,9 +40,12 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'     " Themes for airline
     Plug 'flazz/vim-colorschemes'             " Colorschemes
+    Plug 'vim-scripts/AutoComplPop'           " menu de autocompetad          
 
     call plug#end()
 
+filetype plugin indent on
+set omnifunc=syntaxcomplete#Complete
 
 """""""""""" Start Powerline Settings """"""""""""""""
 
@@ -48,7 +60,7 @@ if has("gui_running")
     let s:uname = system("uname")
     if s:uname == "Darwin\n"
         set guifont=Source\ Code\ Pro\ for\ Powerline:h15
-        colorscheme wombat " set color scheme
+        colorscheme spring-night " set color scheme
     endif
 endif
 
@@ -65,5 +77,15 @@ let g:airline_powerline_fonts=1
 """"""""""""""""" END of AirLine Settings """"""""""""
 colorscheme spring-night
 
-filetype plugin on
-set omnifunc=syntaxcomplete#Complete
+set complete+=kspell
+set completeopt=menuone,longest,preview
+
+inoremap " ""<left>
+inoremap ' ''<left>
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left>
+inoremap {<CR> {<CR>}<ESC>O
+inoremap {;<CR> {<CR>};<ESC>O
+:imap ii <Esc>
+
