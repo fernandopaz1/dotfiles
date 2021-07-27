@@ -1,3 +1,6 @@
+if [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux; fi
+
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -83,6 +86,9 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+
+
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -112,14 +118,14 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-alias tmux='tmux -2'
+
 alias webTemplate=/home/paz/bashScripts/webPageTemplate.sh
 alias conect='nohup wicd-client -n 2>&1 &'
 alias ipython3='python3 -c "from IPython import embed; embed()"'
 alias jlab='nohup jupyter-lab > /dev/null 2>&1 &'
 alias gdit='nohup gedit > /dev/null 2>&1 &'
 alias pycharm='cd ~/pycharm-community-2021.1.1/bin && ./pycharm.sh && cd >| /dev/null 2>&1 &'
-
+alias tmexit='pkill -f tmux && exit'
 
 # Aliases relacionados a postgress
 alias psql='psql -U postgres'
@@ -167,3 +173,5 @@ export SDKMAN_DIR="/home/paz/.sdkman"
 [[ -s /home/paz/.autojump/etc/profile.d/autojump.sh ]] && source /home/paz/.autojump/etc/profile.d/autojump.sh
 autoload -U compinit && compinit -u
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

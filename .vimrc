@@ -1,3 +1,9 @@
+let fancy_symbols_enabled = 1
+set encoding=utf-8
+let using_neovim = has('nvim')
+let using_vim = !using_neovim
+let vim_plug_just_installed = 0
+
 syntax on                              "Enable sintax coloring
 
 set noerrorbells                       "Disable sounds due to errors
@@ -36,8 +42,12 @@ Plug 'vim-syntastic/syntastic'
 Plug 'mattn/emmet-vim'
 Plug 'ternjs/tern_for_vim', { 'do' : 'npm install' }
 Plug 'sheerun/vim-polyglot'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+
+" Fuzzy finder
+
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'     " Themes for airline
 Plug 'flazz/vim-colorschemes'             " Colorschemes
@@ -59,6 +69,23 @@ Plug 'tpope/vim-ragtag'
 Plug 'alvan/vim-closetag'
 Plug 'valloric/MatchTagAlways' " Highlight enclosing HTML/XML tags.
 Plug 'dense-analysis/ale'      " Error higligth
+
+Plug 'ryanoasis/vim-devicons'
+" Git/mercurial/others diff icons on the side of the file lines
+Plug 'mhinz/vim-signify'
+
+" Git integration
+Plug 'tpope/vim-fugitive'
+" Window chooser
+Plug 't9md/vim-choosewin'
+
+" Async autocompletion
+if using_neovim && vim_plug_just_installed
+    Plug 'Shougo/deoplete.nvim', {'do': ':autocmd VimEnter * UpdateRemotePlugins'}
+else
+    Plug 'Shougo/deoplete.nvim'
+  endif
+
 call plug#end()
 
 filetype plugin indent on
@@ -91,19 +118,46 @@ let g:airline_theme='minimalist'
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#formatter='unique_tail'
 let g:airline_powerline_fonts=1
+let g:airline#extensions#whitespace#enabled = 0
+
+
+
+" Fancy Symbols!!
+
+if fancy_symbols_enabled
+    let g:webdevicons_enable = 1
+
+    " custom airline symbols
+    if !exists('g:airline_symbols')
+       let g:airline_symbols = {}
+    endif
+    let g:airline_left_sep = ''
+    let g:airline_left_alt_sep = ''
+    let g:airline_right_sep = ''
+    let g:airline_right_alt_sep = ''
+    let g:airline_symbols.branch = '⭠'
+    let g:airline_symbols.readonly = '⭤'
+    let g:airline_symbols.linenr = '⭡'
+else
+    let g:webdevicons_enable = 0
+  endif
+
 """"""""""""""""" END of AirLine Settings """"""""""""
 colorscheme spring-night
 
-set complete+=kspell
-set completeopt=menuone,longest,preview
+" needed so deoplete can auto select the first suggestion
+set completeopt+=noinsert
+" comment this line to enable autocompletion preview window
+" (displays documentation related to the selected completion option)
+" disabled by default because preview makes the window flicker
+set completeopt-=preview
 
-inoremap " ""<left>
-inoremap ' ''<left>
-inoremap ( ()<left>
-inoremap [ []<left>
-inoremap { {}<left>
-inoremap {<CR> {<CR>}<ESC>O
-inoremap {;<CR> {<CR>};<ESC>O
+" autocompletion of files and commands behaves like shell
+" (complete only the common part, list the options that match)
+set wildmode=list:longest
+
+
+
 :imap ii <Esc>
 
 let g:prettier#exec_cmd_async = 1 " Forzamos a que sea async
@@ -263,4 +317,98 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 " Do default action for previous item.
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+nnoremap <silent> <spacie>p  :<C-u>CocListResume<CR>
+
+
+" Fzf ------------------------------
+
+" file finder mapping
+nmap ,e :Files<CR>
+" tags (symbols) in current file finder mapping
+nmap ,g :BTag<CR>
+" the same, but with the word under the cursor pre filled
+nmap ,wg :execute ":BTag " . expand('<cword>')<CR>
+" tags (symbols) in all files finder mapping
+nmap ,G :Tags<CR>
+" the same, but with the word under the cursor pre filled
+nmap ,wG :execute ":Tags " . expand('<cword>')<CR>
+" general code finder in current file mapping
+nmap ,f :BLines<CR>
+" the same, but with the word under the cursor pre filled
+nmap ,wf :execute ":BLines " . expand('<cword>')<CR>
+" general code finder in all files mapping
+nmap ,F :Lines<CR>
+" the same, but with the word under the cursor pre filled
+nmap ,wF :execute ":Lines " . expand('<cword>')<CR>
+" commands finder mapping
+nmap ,c :Commands<CR>
+
+
+
+
+" NERDTree -----------------------------
+
+" toggle nerdtree display
+map <F3> :NERDTreeToggle<CR>
+" open nerdtree with the current file selected
+nmap ,t :NERDTreeFind<CR>
+" don;t show these file types
+let NERDTreeIgnore = ['\.pyc$', '\.pyo$']
+
+" Enable folder icons
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:DevIconsEnableFoldersOpenClose = 1
+
+" Fix directory colors
+highlight! link NERDTreeFlags NERDTreeDir
+
+" Remove expandable arrow
+let g:WebDevIconsNerdTreeBeforeGlyphPadding = ""
+let g:WebDevIconsUnicodeDecorateFolderNodes = v:true
+let NERDTreeDirArrowExpandable = "\u00a0"
+let NERDTreeDirArrowCollapsible = "\u00a0"
+let NERDTreeNodeDelimiter = "\x07"
+
+" Autorefresh on tree focus
+function! NERDTreeRefresh()
+    if &filetype == "nerdtree"
+        silent exe substitute(mapcheck("R"), "<CR>", "", "")
+    endif
+endfunction
+
+autocmd BufEnter * call NERDTreeRefresh()
+
+
+" tab navigation mappings
+map tt :tabnew 
+map <A-Right> :tabn<CR>
+imap <A-Right> <ESC>:tabn<CR>
+map <A-Left> :tabp<CR>
+imap <A-Left> <ESC>:tabp<CR>
+
+" Signify ------------------------------
+
+" this first setting decides in which order try to guess your current vcs
+" UPDATE it to reflect your preferences, it will speed up opening files
+let g:signify_vcs_list = ['git', 'hg']
+" mappings to jump to changed blocks
+nmap <leader>sn <plug>(signify-next-hunk)
+nmap <leader>sp <plug>(signify-prev-hunk)
+" nicer colors
+highlight DiffAdd           cterm=bold ctermbg=none ctermfg=119
+highlight DiffDelete        cterm=bold ctermbg=none ctermfg=167
+highlight DiffChange        cterm=bold ctermbg=none ctermfg=227
+highlight SignifySignAdd    cterm=bold ctermbg=237  ctermfg=119
+highlight SignifySignDelete cterm=bold ctermbg=237  ctermfg=167
+highlight SignifySignChange cterm=bold ctermbg=237  ctermfg=227
+
+" remove ugly vertical lines on window division
+set fillchars+=vert:\
+
+" Window Chooser ------------------------------
+
+" mapping
+nmap  -  <Plug>(choosewin)
+" show big letters
+let g:choosewin_overlay_enable = 1
+
