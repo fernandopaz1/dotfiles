@@ -86,10 +86,15 @@ else
     Plug 'Shougo/deoplete.nvim'
   endif
 
+
+  Plug 'nvim-treesitter/nvim-treesitter'
+
 call plug#end()
 
 filetype plugin indent on
 set omnifunc=syntaxcomplete#Complete
+
+
 
 """""""""""" Start Powerline Settings """"""""""""""""
 
@@ -197,7 +202,9 @@ let g:coc_global_extensions = [
   \ 'coc-eslint', 
   \ 'coc-prettier', 
   \ 'coc-json', 
+  \ 'coc-java',
   \ ]
+
 " from readme
 " if hidden is not set, TextEdit might fail.
 set hidden " Some servers have issues with backup files, see #649 set nobackup set nowritebackup " Better display for messages set cmdheight=2 " You will have bad experience for diagnostic messages when it's default 4000.

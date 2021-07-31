@@ -91,8 +91,8 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-# export MANPATH="/usr/local/man:$MANPATH"
-
+export PATH=/home/paz/bin:$PATH
+export DOCKER_HOST=unix:///run/user/1000/docker.sock
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
